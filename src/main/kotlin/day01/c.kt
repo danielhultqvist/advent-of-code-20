@@ -16,29 +16,24 @@ fun solve(numbers: List<Int>, tuples: Int) =
         .reduce { a, b -> a * b }
 
 fun List<Int>.combinations(count: Int): Sequence<List<Int>> {
-    fun iterateTree(
-        result: MutableList<List<Int>>,
-        currentCombination: List<Int>,
+    fun recurse(
         tupleSize: Int,
         currentDepth: Int,
         offset: Int
-    ) {
+    ): List<List<Int>> {
+        val combinations = mutableListOf<List<Int>>()
         for (k in offset until this.size) {
             if ((currentDepth + 1) == tupleSize) {
-                result.add(currentCombination + listOf(this[k]))
+                combinations.add(listOf(this[k]))
             } else {
-                iterateTree(
-                    result,
-                    currentCombination + listOf(this[k]),
-                    tupleSize,
-                    currentDepth + 1,
-                    k + 1
-                )
+                recurse(tupleSize, currentDepth + 1, k + 1)
+                    .forEach {combos -> combinations.add(listOf(this[k]) + combos)}
             }
         }
+        return combinations;
     }
 
-    val result = mutableListOf<List<Int>>()
-    iterateTree(result, listOf(), count, 0, 0)
+    val result = recurse(count, 0, 0)
+
     return result.asSequence()
 }
