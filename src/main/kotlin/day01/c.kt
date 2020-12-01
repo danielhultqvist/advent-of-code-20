@@ -8,32 +8,24 @@ fun main(args: Array<String>) {
     println(solve(numbers, 3))
 }
 
-fun solve(numbers: List<Int>, tuples: Int) =
+fun solve(numbers: List<Int>, tupleSize: Int) =
     numbers
-        .combinations(tuples)
-        .filter { a -> a.sum() == 2020 }
-        .first()
+        .combinations(tupleSize)
+        .first { a -> a.sum() == 2020 }
         .reduce { a, b -> a * b }
 
-fun List<Int>.combinations(count: Int): Sequence<List<Int>> {
-    fun recurse(
-        tupleSize: Int,
-        currentDepth: Int,
-        offset: Int
-    ): List<List<Int>> {
-        val combinations = mutableListOf<List<Int>>()
-        for (k in offset until this.size) {
-            if ((currentDepth + 1) == tupleSize) {
-                combinations.add(listOf(this[k]))
-            } else {
-                recurse(tupleSize, currentDepth + 1, k + 1)
-                    .forEach {combos -> combinations.add(listOf(this[k]) + combos)}
+fun <T> List<T>.combinations(tupleSize: Int): List<List<T>> {
+    fun recurse(tupleSize: Int, currentDepth: Int, offset: Int): List<List<T>> {
+        return (offset until this.size)
+            .map { k ->
+                if (currentDepth == tupleSize) {
+                    listOf(listOf(this[k]))
+                } else {
+                    recurse(tupleSize, currentDepth + 1, k + 1)
+                        .map { combo -> listOf(this[k]) + combo }
+                }
             }
-        }
-        return combinations;
+            .flatten()
     }
-
-    val result = recurse(count, 0, 0)
-
-    return result.asSequence()
+    return recurse(tupleSize, 1, 0)
 }
