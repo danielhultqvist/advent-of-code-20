@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.4.10"
-    application
 }
 
 group = "se.hulkfisk"
@@ -22,10 +21,18 @@ tasks.test {
     useJUnitPlatform()
 }
 
-tasks.withType<KotlinCompile>() {
+tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "13"
 }
 
-application {
-    mainClassName = "MainKt"
+tasks.register("day01a", JavaExec::class) {
+    main = "day01/AKt"
+    classpath = sourceSets.main.get().runtimeClasspath
+    standardInput = System.`in`
+}
+
+tasks.register("day01b", JavaExec::class) {
+    main = "day01/BKt"
+    classpath = sourceSets.main.get().runtimeClasspath
+    standardInput = System.`in`
 }
