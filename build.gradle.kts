@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    application
     kotlin("jvm") version "1.4.10"
 }
 
@@ -9,16 +10,6 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-}
-
-dependencies {
-    testImplementation(kotlin("test-junit5"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
-}
-
-tasks.test {
-    useJUnitPlatform()
 }
 
 tasks.withType<KotlinCompile> {
@@ -36,3 +27,16 @@ tasks.register("day01b", JavaExec::class) {
     classpath = sourceSets.main.get().runtimeClasspath
     standardInput = System.`in`
 }
+
+tasks.register("day11", JavaExec::class) {
+    main = "day11/BothKt"
+    classpath = sourceSets.main.get().runtimeClasspath
+    standardInput = System.`in`
+}
+
+application {
+    mainClass.set("day11b.BKt")
+}
+
+val run: JavaExec by tasks
+run.standardInput = System.`in`
