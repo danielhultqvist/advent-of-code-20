@@ -43,11 +43,7 @@ fun main(args: Array<String>) {
     var current = matrix
     do {
         previous = current
-        println(current)
-        println("\n\n\n")
         current = calculate(current)
-
-//        readLine()
     } while (previous != current)
 
     println(current)

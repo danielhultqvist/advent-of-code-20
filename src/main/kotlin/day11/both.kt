@@ -39,14 +39,9 @@ fun main(args: Array<String>) {
     var current = matrix
     do {
         previous = current
-//        println(current)
-//        println("\n\n\n")
         current = calculate(current)
-//        sleep(3000)
     } while (previous != current)
 
-//    println(current)
-//    println("\n\n\n")
     println(current.value.joinToString { it }.count { it == '#' })
 }
 
